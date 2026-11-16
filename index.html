@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Nicole Williams | Portfolio</title>
+
+        <!--Google Fonts Preconnect Link (Speeds up discovery)-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        
+        <!--Google Fonts Embed Link: Libre Caslon + Redacted-->
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Condensed:ital,wght@0,400..700;1,400..700&family=Redaction+50:ital@0;1&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/styles.css"/>
+
+    </head>
+    <body>
+        <div class="video-background-container">
+            <!--Preload=none means the browser doesn't load the video automatically-->
+            <video autoplay muted loop playsinline preload="none" class="bg-video" id="bg-video">
+                <!--Storing the file in data-src helps it stay dormant until needed-->
+                <source data-src="/nicole-bg.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        <section class="desk">
+            <div class="header">
+                <h1>Nicole Williams</h1>
+                <div>
+                    <a id="open-notes-btn" class="about-buttons notes-launch-btn">About</a>
+                    <a href="https://www.instagram.com/shokosrealm/" class="about-buttons">Instagram</a>
+                </div>
+            </div>
+            <div class="item" id="ipad"><img src="/ipad.png"/></div>
+            <div class="item" id="cd"><img src="/cd.png"/></div>
+            <div class="item" id="martini"><img src="/martini.png"/></div>
+            <div class="item" id="record"><img src="/record.png"/></div>
+            <div class="item" id="volume"><img src="/volume.png"/></div>
+            <div class="item" id="folder"><img src="/folder.png"/></div>
+            <div class="item" id="lipstick"><img src="/lipstick.png"/></div>
+            <div class="item" id="notes"><img src="/notes.png"/></div>
+            <div class="item" id="flower"><img src="/flower.png"/></div>
+
+            <div class="item" id="error"><img src="/error.png"/></div>
+            <div class="item" id="pawn"><img src="/pawn.png"/></div>
+        </section>
+        <div class="modes">
+            <button class="active" data-mode="chaos">
+                <ion-icon name="flash-outline"></ion-icon>
+            </button>
+            <button data-mode="cleanup">
+                <ion-icon name="grid-outline"></ion-icon>
+            </button>
+            <button data-mode="notebook">
+                <ion-icon name="book-outline"></ion-icon>
+            </button>
+        </div>
+
+        <!--Notes pop-up overlay-->
+        <div id="notes-app-modal" class="notes-modal-overlay">
+
+            <!--Notes app window wrapper-->
+            <div class="mac-notes-window">
+
+                <!--Notes app top window titlebar-->
+                <div class="mac-titlebar">
+                     <!--Traffic light window cms-->
+                     <div class="traffic-lights">
+                        <button id="close-notes-btn" class="light close" aria-label="Close Window"></button>
+                        <div class="light minimize"></div>
+                        <div class="light maximize"></div>
+                     </div>
+                     <div class="window-title">All Quick Notes</div>
+                </div>
+                <!--Notes app main interface-->
+                <div class="notes-app-body">
+                    <!--Sidebar navigator-->
+                    <aside class="notes-sidebar">
+                        <div class="sidebar-search">
+                            <input type="text" placeholder="Search" disabled />
+                        </div>
+                        <ul class="notes-list">
+                            <li class="note-item active about-me-note">
+                                <span class="note-item-title">About Me</span>
+                                <span class="note-item-date">7:27 PM</span>
+                                <span class="note-item-snippet">Hey! I'm Nicole.</span>
+                            </li>
+                            <li class="note-item projects-note">
+                                <span class="note-item-title">Projects</span>
+                                <span class="note-item-date">Yesterday</span>
+                                <span class="note-item-snippet">All of my artwork speaks to my tireless fascination with detail and simplicity.</span>
+                            </li>
+                            <li class="note-item resume-note">
+                                <span class="note-item-title">Resume</span>
+                                <span class="note-item-date">Yesterday</span>
+                                <span class="note-item-snippet">Talented digital marketer and graphic designer who tells stories that stick.</span>
+                            </li>
+                        </ul>
+                    </aside>
+            
+
+                    <!--1st canvas layer: about me-->
+                    <main class="notes-content-canvas" id="notes-canvas">
+                        <div class="note-meta-header">November 10, 2026 at 7:27 PM</div>
+                        <div class="note-text-editor" contenteditable="true">
+                            <h2>About Me</h2>
+                            <p>I'm a digital and social media marketer as well as a self-taught graphic designer, passionate about visual design. Fascinated with color theory, typography, and surrealism.</p>
+                            <p></p>
+                            <p></p>
+                        </div>
+                    </main>
+                    
+                </div>
+            </div>
+        </div>
+        <script
+            type="module"
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script type="module" src="./script.js"></script>
+    </body>
+</html>

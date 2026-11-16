@@ -1,0 +1,23 @@
+[
+    {
+        "title": "Gradients 2020",
+        "description": "There's something wistful about getting lost in the hues of blue and green.",
+        "image1": "./designs/green.png",
+        "image2": "./designs/symphony.jpg",
+        "image3": "./designs/wind and sound.png"
+    },
+    {
+        "title": "Just sayin' Cover Art",
+        "description": "COVER ART FOR SYÄ'S SINGLE &quot;JUST SAYIN'&quot; (2021)",
+        "image1": "./designs/just-sayin.jpg",
+        "image2": "",
+        "image3": ""
+    },
+    {
+        "title": "Violent Cover Art",
+        "description": "COVER ART FOR KAI BLU'S SINGLE (UNRELEASED) &quot;VIOLENT&quot; ",
+        "image1": "./designs/violent.jpg",
+        "image2": "",
+        "image3": ""
+    }
+]

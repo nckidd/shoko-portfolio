@@ -1,0 +1,452 @@
+@font-face {
+    font-family: 'GeminiFont';
+    src: url('/fonts/Gemini-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /*Prevents invisible text during slow connections*/
+}
+/* @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&display=swap"); */
+
+:root {
+    --base-100: #f5f2ed;
+    --base-200: #e0dfd7;
+    --base-300: #5f5f5f;
+    --base-400: #171717;
+    --mac-font: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --bg-overlay: rgba(0, 0, 0, 0.4);
+    --sidebar-bg: rgba(246, 246, 246, 0.75);
+    --canvas-bg: #fcfaf2; /*Soft warm yellow paper*/
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Redaction 50", sans-serif;
+    background: var(--base-100);
+    color: var(--base-400);
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.desk {
+    position:relative;
+    width: 100%;
+    height: 100svh;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.projects {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.project {
+    position:relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.project h1 {
+    font-family: "Libre Caslon Condensed", sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.02rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.project p{
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--base-300);
+    pointer-events: none;
+}
+
+.header {
+    position: absolute;
+    width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 10;
+}
+
+.header h1 {
+    font-family: "GeminiFont", sans-serif;
+    font-size: 4rem;
+    font-weight: 600;
+    letter-spacing: -0.1rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.header p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--base-300);
+    pointer-events: none;
+}
+
+.header-projects {
+    width: 100%;
+    text-align:center;
+    padding-top: 0.5rem;
+}
+
+.header-projects h1 {
+    font-family: "GeminiFont", sans-serif;
+    font-size: 4rem;
+    font-weight: 600;
+    letter-spacing: -0.1rem;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.about-buttons {
+    width: 6rem;
+    height: 3rem;
+    font-size: 1rem;
+    color: var(--base-300);
+    background: var(--base-100);
+    border: 1px solid var(--base-200);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    transition: all 500ms ease;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.about-buttons:hover {
+    background: #aa9e82;
+}
+
+.about-buttons:active {
+    transform: scale(0.97);
+}
+.item {
+    position: absolute;
+    will-change: top, left, transform; 
+    pointer-events: none;
+}
+
+
+/* Notes pop-up: modal bg layer*/
+.notes-modal-overlay {
+    display: none; /*Controlled via JS*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-overlay);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur (4px); /*Underlay softness*/
+}
+
+/* Notes pop-up: dynamic utility visibility*/
+.notes-modal-overlay.is-visible {
+    display: flex;
+}
+/* Notes pop-up: macbook window container*/
+.mac-notes-window {
+    width: 760px;
+    height: 480px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: var(--mac-font);
+    animation: macWindowScaleOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Notes pop-up: titlebar architecture*/
+.mac-titlebar {
+    height: 52px;
+    background-color: var(--sidebar-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    position: relative;
+    user-select: none;
+}
+
+.traffic-lights {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 16px;
+}
+
+.light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    cursor: default;
+}
+
+.light.close { background-color: #ff5f56; border-color: #e0443e; cursor: pointer; }
+.light.minimize { background-color: #ffbd2e; border-color: #dea123; }
+.light.maximize { background-color: #27c93f; border-color: #1aab29; }
+
+/* Notes pop-up: interactive traffic light buttons*/
+.traffic-lights:hover .light.close::before {
+    content: "×";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4c0002;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 11px;
+}
+
+.window-title {
+    margin: 0 auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: #646464;
+}
+
+/* Notes pop-up: interface body split*/
+.notes-app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Notes pop-up: sidebar layout*/
+.notes-sidebar {
+    width: 220px;
+    background-color: var(--sidebar-bg);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-search {
+    padding: 10px 12px;
+}
+
+.sidebar-search input {
+    width: 100%;
+    padding: 5px 8px;
+    background: rgba(200, 200, 200, 0.2);
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.notes-list {
+    list-style: none;
+    padding: 0 8px;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.note-item {
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.note-item.active, .note-item:hover {
+    background-color: rgba(224, 180, 50, 0.2); /* Soft Yellow Selection Tint */
+}
+
+.note-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d1d1f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-item-date {
+    font-size: 11px;
+    color: #86868b;
+}
+
+.note-item-snippet {
+    font-size: 11px;
+    color: #86868b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Notes pop-up: interface paper area*/
+.notes-content-canvas {
+    flex: 1;
+    background-color: var(--canvas-bg);
+    padding: 24px 32px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-meta-header {
+    font-size: 11px;
+    font-weight: 500;
+    color: #aa9e82;
+    text-align: center;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    user-select: none;
+}
+
+.note-text-editor {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333333;
+    outline: none;
+}
+
+.note-text-editor h2 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    color: #111111;
+}
+
+.note-text-editor p {
+    margin: 0 0 8px 0;
+}
+
+/* Notes pop-up: scaling presentation transition*/
+@keyframes macWindowScaleOpen {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modes {
+    position: fixed;
+    bottom: 7.5svh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.modes button {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    color: var(--base-300);
+    background: var(--base-100);
+    border: 1px solid var(--base-200);
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 500ms ease;
+    cursor: pointer;
+}
+
+.modes button:active {
+    transform: scale(0.9);
+}
+
+.modes button.active {
+    background: var(--base-200);
+    border: 1px solid var(--base-200);
+}
+
+/*Hide background video by default*/
+.video-background-container {
+    display: none;
+}
+
+@media (max-width: 1400px) {
+    .desk {
+        overflow-x: hidden;
+    }
+}
+
+@media (max-width: 1000px) {
+    /*Only reveal the video container on small screens*/
+    .video-background-container {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -2;
+        overflow: hidden;
+        /* background: #111; */
+    }
+
+    .bg-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Keep notes small*/
+    .mac-notes-window {
+        width: 90%;
+        height: 480px;
+    }
+
+    .desk::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* background-color: rgba(245, 242, 237, 0.5); */
+    }
+
+    .item {
+        /* filter: saturate(0); */
+        display: none;
+    }
+
+    .modes button {
+        display: none;
+    }
+}
